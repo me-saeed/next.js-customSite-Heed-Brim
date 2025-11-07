@@ -1,11 +1,14 @@
 'use client';
 
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Heart, Users, Target, Eye, CheckCircle } from 'lucide-react';
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
+import { Heart, Users, Target, Eye, CheckCircle, Menu } from 'lucide-react';
 import Link from 'next/link';
 
 export default function HomePage() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
@@ -20,11 +23,61 @@ export default function HomePage() {
             <Link href="#vision" className="text-slate-700 hover:text-teal-600 transition-colors">Our Vision</Link>
             <Link href="/contact" className="text-slate-700 hover:text-teal-600 transition-colors">Contact</Link>
           </nav>
-          <div className="flex gap-2">
-            <Button size="sm" className="bg-teal-600 hover:bg-teal-700 text-xs md:text-sm">Get Started</Button>
-            <Link href="/contact" className="md:hidden">
-              <Button size="sm" variant="outline" className="border-teal-600 text-teal-600 hover:bg-teal-50 text-xs">Contact</Button>
+          <div className="flex gap-2 items-center">
+            <Link href="/contact" className="hidden md:block">
+              <Button size="sm" className="bg-teal-600 hover:bg-teal-700 text-xs md:text-sm">Get Started</Button>
             </Link>
+            <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+              <SheetTrigger asChild className="md:hidden">
+                <Button variant="ghost" size="sm" className="p-2">
+                  <Menu className="h-6 w-6 text-slate-700" />
+                  <span className="sr-only">Open menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                <nav className="flex flex-col gap-6 mt-8">
+                  <SheetClose asChild>
+                    <Link 
+                      href="#about" 
+                      className="text-lg font-medium text-slate-700 hover:text-teal-600 transition-colors"
+                    >
+                      About Us
+                    </Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link 
+                      href="#mission" 
+                      className="text-lg font-medium text-slate-700 hover:text-teal-600 transition-colors"
+                    >
+                      Our Mission
+                    </Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link 
+                      href="#vision" 
+                      className="text-lg font-medium text-slate-700 hover:text-teal-600 transition-colors"
+                    >
+                      Our Vision
+                    </Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link 
+                      href="/contact" 
+                      className="text-lg font-medium text-slate-700 hover:text-teal-600 transition-colors"
+                    >
+                      Contact
+                    </Link>
+                  </SheetClose>
+                  <div className="pt-4 border-t">
+                    <SheetClose asChild>
+                      <Link href="/contact" className="block">
+                        <Button className="w-full bg-teal-600 hover:bg-teal-700">Get Started</Button>
+                      </Link>
+                    </SheetClose>
+                  </div>
+                </nav>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </header>
@@ -39,7 +92,7 @@ export default function HomePage() {
             At Heed & Brim Care Services, we believe that care is more than a service — it is an act of humanity, compassion, and respect.
           </p>
           <div className="flex flex-col md:flex-row gap-3 md:gap-4 justify-center">
-            <Button size="lg" className="bg-teal-600 hover:bg-teal-700 md:text-lg md:px-8">Learn More</Button>
+            <Button size="lg" className="hidden md:inline-flex bg-teal-600 hover:bg-teal-700 md:text-lg md:px-8">Learn More</Button>
             <Link href="/contact" className="w-full md:w-auto">
               <Button size="lg" variant="outline" className="w-full md:w-auto border-teal-600 text-teal-600 hover:bg-teal-50 md:text-lg md:px-8">Contact Us</Button>
             </Link>
@@ -59,7 +112,7 @@ export default function HomePage() {
               At Heed & Brim Care Services, we believe that care is more than a service — it is an act of humanity, compassion, and respect. Based in Victoria, Australia, we are a trusted NDIS-registered provider dedicated to empowering individuals with disabilities to live meaningful, independent, and fulfilling lives.
             </p>
 
-            <Card className="border-teal-200 bg-teal-50/50">
+            <Card id="mission" className="border-teal-200 bg-teal-50/50 scroll-mt-20">
               <CardHeader>
                 <CardTitle className="text-xl md:text-2xl flex items-center gap-2">
                   <Target className="h-6 w-6 text-teal-600" />
@@ -85,7 +138,7 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            <Card className="border-sky-200 bg-sky-50/50">
+            <Card id="vision" className="border-sky-200 bg-sky-50/50 scroll-mt-20">
               <CardHeader>
                 <CardTitle className="text-xl md:text-2xl flex items-center gap-2">
                   <Eye className="h-6 w-6 text-sky-600" />
@@ -152,7 +205,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="contact" className="py-12 md:py-20 px-4">
+      <section id="contact" className="py-12 md:py-20 px-4 scroll-mt-20">
         <div className="container mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 md:mb-6">Ready to Start Your Journey?</h2>
           <p className="text-base md:text-xl text-slate-600 mb-6 md:mb-8 max-w-2xl mx-auto">
